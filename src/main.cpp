@@ -14,12 +14,14 @@ using namespace vex;
 // A global instance of competition
 vex::competition Competition;
 // define your global instances of motors and other devices here
-vex::motor LeftMotor = vex::motor(vex::PORT1);
-vex::motor RightMotor = vex::motor(vex::PORT2);
-vex::motor piston = vex::motor(vex::PORT4);
-vex::motor intakeMotor = vex::motor(vex::PORT9);
-vex::motor rollerMotor = vex::motor(vex::PORT19);
-vex::motor shootingMotor = vex::motor(vex::PORT3);
+vex::motor RightFrontMotor = vex::motor(vex::PORT4);
+vex::motor RightBackMotor = vex::motor(vex::PORT5);
+vex::motor LeftFrontMotor = vex::motor(vex::PORT6);
+vex::motor LeftBackMotor = vex::motor(vex::PORT7);
+vex::motor intakeMotor = vex::motor(vex::PORT3);
+vex::motor rollerMotor = vex::motor(vex::PORT2);
+vex::motor shootingMotor = vex::motor(vex::PORT1);
+vex::motor expansionMotor = vex::motor(vex::PORT9);
 vex::controller Controller1 = vex::controller();
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -54,36 +56,52 @@ void intake(float time){
 }
 void turnLeft(float time){
   // 1 second = 90 degrees
-  LeftMotor.spin(forward, -25, percent);
-  RightMotor.spin(reverse, 25, percent);
+  LeftFrontMotor.spin(forward, -25, percent);
+  LeftBackMotor.spin(forward, -25, percent);
+  RightFrontMotor.spin(reverse, 25, percent);
+  RightBackMotor.spin(reverse, 25, percent);
   wait(time, seconds);
-  LeftMotor.stop();
-  RightMotor.stop();
+  LeftFrontMotor.stop();
+  LeftBackMotor.stop();
+  RightFrontMotor.stop();
+  RightBackMotor.stop();
 }
 void turnRight(float time){
   // 1 second = 90 degrees
-  LeftMotor.spin(reverse, -25, percent);
-  RightMotor.spin(forward, 25, percent);
+  LeftBackMotor.spin(reverse, -25, percent);
+  LeftFrontMotor.spin(reverse, -25, percent);
+  RightBackMotor.spin(forward, 25, percent);
+  RightFrontMotor.spin(forward, 25, percent);
   wait(time, seconds);
-  LeftMotor.stop();
-  RightMotor.stop();
+  LeftBackMotor.stop();
+  LeftFrontMotor.stop();
+  RightBackMotor.stop();
+  RightFrontMotor.stop();
 }
 void driveForward(float time){
-  LeftMotor.spin(forward, 25, percent);
-  RightMotor.spin(reverse, 25, percent);
+  LeftBackMotor.spin(reverse, 25, percent);
+  LeftFrontMotor.spin(reverse, 25, percent);
+  RightBackMotor.spin(forward, 25, percent);
+  RightFrontMotor.spin(forward, 25, percent);
   wait(time, seconds);
-  LeftMotor.stop();
-  RightMotor.stop();
+  LeftBackMotor.stop();
+  LeftFrontMotor.stop();
+  RightBackMotor.stop();
+  RightFrontMotor.stop();
 }
 void driveBackward(float time){
-  LeftMotor.spin(reverse, 100, percent);
-  RightMotor.spin(forward, 100, percent);
+  LeftBackMotor.spin(forward, 25, percent);
+  LeftFrontMotor.spin(forward, 25, percent);
+  RightBackMotor.spin(reverse, 25, percent);
+  RightFrontMotor.spin(reverse, 25, percent);
   wait(time, seconds);
-  LeftMotor.stop();
-  RightMotor.stop();
+  LeftBackMotor.stop();
+  LeftFrontMotor.stop();
+  RightBackMotor.stop();
+  RightFrontMotor.stop();
 }
 void shooting(float time){
-  shootingMotor.spin(reverse, 100, percent);
+  shootingMotor.spin(forward, 100, percent);
   wait(time, seconds);
   shootingMotor.stop();
 }
@@ -92,18 +110,13 @@ void roller(float time){
   wait(time, seconds);
   rollerMotor.stop();
 }
-void usePiston(){
-  piston.spin(forward, 100, percent);
-  wait(0.3, seconds);
-  piston.stop();
-}
 void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
   driveBackward(2);
   roller(.25);
-  driveForward(1);
+  driveForward(.2);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -118,12 +131,13 @@ void autonomous(void) {
 
 void usercontrol(void) {
   // User control code here, inside the loop
-  LeftMotor.setStopping(brakeType::brake);
-  RightMotor.setStopping(brakeType::brake);
+  LeftBackMotor.setStopping(brakeType::brake);
+  LeftFrontMotor.setStopping(brakeType::brake);
+  RightBackMotor.setStopping(brakeType::brake);
+  RightFrontMotor.setStopping(brakeType::brake);
   intakeMotor.setStopping(brakeType::brake);
   rollerMotor.setStopping(brakeType::brake);
   shootingMotor.setStopping(brakeType::brake);
-  piston.setStopping(brakeType::brake);
   while (1) {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
@@ -142,8 +156,8 @@ void usercontrol(void) {
     else{
       leftSpeed = (Controller1.Axis3.value() + Controller1.Axis4.value()) / 2;
     }
-    leftSpeed = leftSpeed*2;
-    LeftMotor.spin(directionType::rev, leftSpeed, velocityUnits::pct);
+    LeftBackMotor.spin(directionType::fwd, leftSpeed, velocityUnits::pct);
+    LeftFrontMotor.spin(directionType::fwd, leftSpeed, velocityUnits::pct);
 
     //Right Motors
     int RightSpeed = Controller1.Axis3.value() - Controller1.Axis4.value();
@@ -153,8 +167,8 @@ void usercontrol(void) {
     else{
       RightSpeed = (Controller1.Axis3.value() - Controller1.Axis4.value()) / 2;
     }
-    RightSpeed = RightSpeed*2;
-    RightMotor.spin(directionType::fwd, RightSpeed, velocityUnits::pct);
+    RightBackMotor.spin(directionType::rev, RightSpeed, velocityUnits::pct);
+    RightFrontMotor.spin(directionType::rev, RightSpeed, velocityUnits::pct);
 
     // Intake
     if (Controller1.ButtonL2.pressing())
@@ -174,12 +188,12 @@ void usercontrol(void) {
     // Shooting
     if (Controller1.ButtonR2.pressing())
     {
-      shootingMotor.spin(reverse, 100, percent);
+      shootingMotor.spin(forward, 100, percent);
     }else if(Controller1.ButtonUp.pressing()){
-      shootingMotor.spin(reverse, 75, percent);
+      shootingMotor.spin(forward, 75, percent);
     }
     else if(Controller1.ButtonDown.pressing()){
-      shootingMotor.spin(forward,75,percent);
+      shootingMotor.spin(reverse,75,percent);
     }
     else
     {
@@ -197,14 +211,12 @@ void usercontrol(void) {
       rollerMotor.stop(brakeType::brake);
     }
 
-    if(Controller1.ButtonR1.pressing()){
-      piston.spin(forward, 100, percent);
-    }
-    else if(Controller1.ButtonA.pressing()){
-      usePiston();
-    }
-    else{
-      piston.stop(brakeType::brake);
+    if(Controller1.ButtonLeft.pressing()){
+      expansionMotor.spin(forward, 15, percent);
+    }else if(Controller1.ButtonRight.pressing()){
+      expansionMotor.spin(reverse, 15, percent);
+    }else{
+      expansionMotor.stop(brakeType::brake);
     }
     
     wait(20, msec); // Sleep the task for a short amount of time to
