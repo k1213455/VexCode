@@ -114,7 +114,7 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  driveBackward(2);
+  driveBackward(1);
   roller(.25);
   driveForward(.2);
 }
