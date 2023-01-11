@@ -14,6 +14,7 @@ using namespace vex;
 // A global instance of competition
 vex::competition Competition;
 // define your global instances of motors and other devices here
+vex::brain Brain = vex::brain();
 vex::motor RightFrontMotor = vex::motor(vex::PORT4);
 vex::motor RightBackMotor = vex::motor(vex::PORT5);
 vex::motor LeftFrontMotor = vex::motor(vex::PORT6);
@@ -22,6 +23,7 @@ vex::motor intakeMotor = vex::motor(vex::PORT3);
 vex::motor rollerMotor = vex::motor(vex::PORT2);
 vex::motor shootingMotor = vex::motor(vex::PORT1);
 vex::motor expansionMotor = vex::motor(vex::PORT9);
+vex::digital_out expansion = vex::digital_out(Brain.ThreeWirePort.A);
 vex::controller Controller1 = vex::controller();
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -110,6 +112,11 @@ void roller(float time){
   wait(time, seconds);
   rollerMotor.stop();
 }
+void expand(){
+  expansion.set(true);
+  wait(2, seconds);
+  expansion.set(false);
+}
 void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
@@ -173,6 +180,9 @@ void usercontrol(void) {
     // Intake
     if (Controller1.ButtonL2.pressing())
     {
+      if(Controller1.ButtonY.pressing()){
+        expand();
+      }
       intakeMotor.spin(forward, 75, percent);
     }
     // Intake Reverse
