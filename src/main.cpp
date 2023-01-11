@@ -180,7 +180,7 @@ void usercontrol(void) {
     // Intake
     if (Controller1.ButtonL2.pressing())
     {
-      if(Controller1.ButtonY.pressing()){
+      if(Controller1.ButtonY.pressed()){
         expand();
       }
       intakeMotor.spin(forward, 75, percent);
