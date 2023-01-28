@@ -133,10 +133,10 @@ void autonomous(void)
   // ..........................................................................
   driveBackward(1);
   roller(.5);
-  driveForward(2);
-  turnLeft(.9);
-  driveBackward(2);
-  roller(.5);
+  driveForward(1);
+  turnRight(2.25);
+  expand();
+
 }
 
 /*---------------------------------------------------------------------------*/
