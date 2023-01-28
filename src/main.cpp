@@ -35,7 +35,8 @@ vex::controller Controller1 = vex::controller();
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
 
-void pre_auton(void) {
+void pre_auton(void)
+{
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -49,14 +50,16 @@ void pre_auton(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-void intake(float time){
+void intake(float time)
+{
   intakeMotor.spin(forward, 100, percent);
   rollerMotor.spin(forward, 100, percent);
   wait(time, seconds);
   intakeMotor.stop();
   rollerMotor.stop();
 }
-void turnLeft(float time){
+void turnLeft(float time)
+{
   // 1 second = 90 degrees
   LeftFrontMotor.spin(forward, -25, percent);
   LeftBackMotor.spin(forward, -25, percent);
@@ -68,7 +71,8 @@ void turnLeft(float time){
   RightFrontMotor.stop();
   RightBackMotor.stop();
 }
-void turnRight(float time){
+void turnRight(float time)
+{
   // 1 second = 90 degrees
   LeftBackMotor.spin(reverse, -25, percent);
   LeftFrontMotor.spin(reverse, -25, percent);
@@ -80,7 +84,8 @@ void turnRight(float time){
   RightBackMotor.stop();
   RightFrontMotor.stop();
 }
-void driveForward(float time){
+void driveForward(float time)
+{
   LeftBackMotor.spin(reverse, 25, percent);
   LeftFrontMotor.spin(reverse, 25, percent);
   RightBackMotor.spin(forward, 25, percent);
@@ -91,7 +96,8 @@ void driveForward(float time){
   RightBackMotor.stop();
   RightFrontMotor.stop();
 }
-void driveBackward(float time){
+void driveBackward(float time)
+{
   LeftBackMotor.spin(forward, 25, percent);
   LeftFrontMotor.spin(forward, 25, percent);
   RightBackMotor.spin(reverse, 25, percent);
@@ -102,22 +108,26 @@ void driveBackward(float time){
   RightBackMotor.stop();
   RightFrontMotor.stop();
 }
-void shooting(float time){
+void shooting(float time)
+{
   shootingMotor.spin(forward, 100, percent);
   wait(time, seconds);
   shootingMotor.stop();
 }
-void roller(float time){
+void roller(float time)
+{
   rollerMotor.spin(reverse, 100, percent);
   wait(time, seconds);
   rollerMotor.stop();
 }
-void expand(){
+void expand()
+{
   expansion.set(true);
   wait(2, seconds);
   expansion.set(false);
 }
-void autonomous(void) {
+void autonomous(void)
+{
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
@@ -136,7 +146,8 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void usercontrol(void) {
+void usercontrol(void)
+{
   // User control code here, inside the loop
   LeftBackMotor.setStopping(brakeType::brake);
   LeftFrontMotor.setStopping(brakeType::brake);
@@ -145,7 +156,8 @@ void usercontrol(void) {
   intakeMotor.setStopping(brakeType::brake);
   rollerMotor.setStopping(brakeType::brake);
   shootingMotor.setStopping(brakeType::brake);
-  while (1) {
+  while (1)
+  {
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.
@@ -154,24 +166,28 @@ void usercontrol(void) {
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
     // ........................................................................
-    
-    //Left Motors
+
+    // Left Motors
     int leftSpeed = Controller1.Axis3.value() + Controller1.Axis4.value();
-    if (abs(leftSpeed) >= 110){
+    if (abs(leftSpeed) >= 110)
+    {
       leftSpeed = Controller1.Axis3.value() + Controller1.Axis4.value();
     }
-    else{
+    else
+    {
       leftSpeed = (Controller1.Axis3.value() + Controller1.Axis4.value()) / 2;
     }
     LeftBackMotor.spin(directionType::fwd, leftSpeed, velocityUnits::pct);
     LeftFrontMotor.spin(directionType::fwd, leftSpeed, velocityUnits::pct);
 
-    //Right Motors
+    // Right Motors
     int RightSpeed = Controller1.Axis3.value() - Controller1.Axis4.value();
-    if (abs(RightSpeed) >= 110){
+    if (abs(RightSpeed) >= 110)
+    {
       RightSpeed = Controller1.Axis3.value() - Controller1.Axis4.value();
     }
-    else{
+    else
+    {
       RightSpeed = (Controller1.Axis3.value() - Controller1.Axis4.value()) / 2;
     }
     RightBackMotor.spin(directionType::rev, RightSpeed, velocityUnits::pct);
@@ -180,9 +196,6 @@ void usercontrol(void) {
     // Intake
     if (Controller1.ButtonL2.pressing())
     {
-      if(Controller1.ButtonY.pressed()){
-        expand();
-      }
       intakeMotor.spin(forward, 75, percent);
     }
     // Intake Reverse
@@ -194,16 +207,19 @@ void usercontrol(void) {
     {
       intakeMotor.stop(brakeType::brake);
     }
-    
+
     // Shooting
     if (Controller1.ButtonR2.pressing())
     {
       shootingMotor.spin(forward, 100, percent);
-    }else if(Controller1.ButtonUp.pressing()){
+    }
+    else if (Controller1.ButtonUp.pressing())
+    {
       shootingMotor.spin(forward, 75, percent);
     }
-    else if(Controller1.ButtonDown.pressing()){
-      shootingMotor.spin(reverse,75,percent);
+    else if (Controller1.ButtonDown.pressing())
+    {
+      shootingMotor.spin(reverse, 75, percent);
     }
     else
     {
@@ -214,21 +230,33 @@ void usercontrol(void) {
     {
       rollerMotor.spin(forward, 75, percent);
     }
-    else if(Controller1.ButtonB.pressing())
+    else if (Controller1.ButtonB.pressing())
     {
       rollerMotor.spin(reverse, 75, percent);
-    }else{
+    }
+    else
+    {
       rollerMotor.stop(brakeType::brake);
     }
 
-    if(Controller1.ButtonLeft.pressing()){
+    if (Controller1.ButtonLeft.pressing())
+    {
       expansionMotor.spin(forward, 15, percent);
-    }else if(Controller1.ButtonRight.pressing()){
+    }
+    else if (Controller1.ButtonRight.pressing())
+    {
       expansionMotor.spin(reverse, 15, percent);
-    }else{
+    }
+    else
+    {
       expansionMotor.stop(brakeType::brake);
     }
-    
+
+    if (Controller1.ButtonLeft.pressing())
+    {
+      expand();
+    }
+
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
@@ -237,7 +265,8 @@ void usercontrol(void) {
 //
 // Main will set up the competition functions and callbacks.
 //
-int main() {
+int main()
+{
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
@@ -246,7 +275,8 @@ int main() {
   pre_auton();
 
   // Prevent main from exiting with an infinite loop.
-  while (true) {
+  while (true)
+  {
     wait(100, msec);
   }
 }
