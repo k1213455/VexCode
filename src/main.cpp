@@ -86,10 +86,10 @@ void turnRight(float time)
 }
 void driveForward(float time)
 {
-  LeftBackMotor.spin(reverse, 25, percent);
-  LeftFrontMotor.spin(reverse, 25, percent);
-  RightBackMotor.spin(forward, 25, percent);
-  RightFrontMotor.spin(forward, 25, percent);
+  LeftBackMotor.spin(reverse, 50, percent);
+  LeftFrontMotor.spin(reverse, 50, percent);
+  RightBackMotor.spin(forward, 50, percent);
+  RightFrontMotor.spin(forward, 50, percent);
   wait(time, seconds);
   LeftBackMotor.stop();
   LeftFrontMotor.stop();
@@ -98,10 +98,10 @@ void driveForward(float time)
 }
 void driveBackward(float time)
 {
-  LeftBackMotor.spin(forward, 25, percent);
-  LeftFrontMotor.spin(forward, 25, percent);
-  RightBackMotor.spin(reverse, 25, percent);
-  RightFrontMotor.spin(reverse, 25, percent);
+  LeftBackMotor.spin(forward, 50, percent);
+  LeftFrontMotor.spin(forward, 50, percent);
+  RightBackMotor.spin(reverse, 50, percent);
+  RightFrontMotor.spin(reverse, 50, percent);
   wait(time, seconds);
   LeftBackMotor.stop();
   LeftFrontMotor.stop();
@@ -131,9 +131,15 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  driveBackward(1);
-  roller(.25);
-  driveForward(.2);
+  driveBackward(.2);
+  turnRight(.90);
+  driveBackward(1.25);
+  turnRight(.90);
+  driveBackward(.25);
+  roller(.4);
+  driveForward(.25);
+  turnRight(.95);
+  driveBackward(1.25);
 }
 
 /*---------------------------------------------------------------------------*/
