@@ -138,7 +138,7 @@ void autonomous(void)
   driveBackward(.25);
   roller(.4);
   driveForward(.25);
-  turnRight(.95);
+  turnRight(.90);
   driveBackward(1.25);
 }
 
