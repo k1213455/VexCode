@@ -117,8 +117,16 @@ void shooting(float time)
 void roller(float time)
 {
   rollerMotor.spin(reverse, 100, percent);
+  LeftBackMotor.spin(forward, 10, percent);
+  LeftFrontMotor.spin(forward, 10, percent);
+  RightBackMotor.spin(reverse, 10, percent);
+  RightFrontMotor.spin(reverse, 10, percent);
   wait(time, seconds);
   rollerMotor.stop();
+  LeftBackMotor.stop();
+  LeftFrontMotor.stop();
+  RightBackMotor.stop();
+  RightFrontMotor.stop();
 }
 void expand()
 {
@@ -131,13 +139,13 @@ void autonomous(void)
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  driveBackward(1.25);
+  driveBackward(1.1);
   turnRight(.90);
   driveBackward(.5);
-  roller(.4);
-  driveForward(.15);
-  turnRight(.90);
-  driveBackward(1.25);
+  roller(.3);
+  driveForward(.2);
+  turnRight(.9);
+  driveBackward(1);
 }
 
 /*---------------------------------------------------------------------------*/
