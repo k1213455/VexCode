@@ -141,11 +141,22 @@ void autonomous(void)
   // ..........................................................................
   driveBackward(1.1);
   turnRight(.90);
-  driveBackward(.5);
-  roller(.3);
+  driveBackward(.2);
+  roller(.25);
   driveForward(.2);
-  turnRight(.9);
-  driveBackward(1);
+  turnLeft(.9);
+  driveForward(2);
+
+  shootingMotor.spin(forward, 50, percent);
+  wait(2, seconds);
+  for(int i = 0; i < 12; i++){
+    intakeMotor.spin(forward, 100, percent);
+    wait(.2, seconds);
+    intakeMotor.stop();
+    wait(.5, seconds);
+  }
+  intakeMotor.stop();
+  shootingMotor.stop();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -225,9 +236,13 @@ void usercontrol(void)
     {
       shootingMotor.spin(forward, 100, percent);
     }
-    else if (Controller1.ButtonUp.pressing())
+    else if (Controller1.ButtonR1.pressing())
     {
       shootingMotor.spin(forward, 75, percent);
+    }
+    else if (Controller1.ButtonUp.pressing())
+    {
+      shootingMotor.spin(forward, 60, percent);
     }
     else if (Controller1.ButtonDown.pressing())
     {
